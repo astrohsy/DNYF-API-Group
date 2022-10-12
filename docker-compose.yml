@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+  api:
+    image: dnyf-group-api
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/app
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14.5-alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=dbuser
+      - POSTGRES_USER=dbuser
+      - POSTGRES_DB=dnyf-group-db
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+volumes:
+  postgres:
