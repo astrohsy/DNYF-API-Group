@@ -45,3 +45,9 @@ To connect to Postgres from within the DB container:
 ```bash
 psql -U dbuser -d dnyf-group-db
 ```
+
+To start the API using a local Python environment:
+
+```
+uvicorn src.app:app --reload
+```
