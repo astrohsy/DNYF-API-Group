@@ -1,15 +1,35 @@
 # DFNY Group API
 
+## Install dependencies
+
+```
+pip install -r requirements-dev.txt
+```
+
 ## Start up local API and DB
 
 ```bash
 docker-compose -f docker-compose.yml up --build
 ```
 
-Upgrade DB schema
+## DB migrations
+
+Upgrade local DB schema
 
 ```
 alembic upgrade head
+```
+
+Upgrade RDS schema
+
+```
+PROD_FLAG=1 alembic upgrade head
+```
+
+Generate a migration
+
+```
+alembic revision --autogenerate -m "Description"
 ```
 
 ## To only use DB with Docker
