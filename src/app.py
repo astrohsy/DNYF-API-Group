@@ -5,8 +5,7 @@ Main API entrypoint
 from fastapi import FastAPI
 
 # Local application imports
-from .routes import item, user
+from .routes import group
 
 app = FastAPI()
-app.include_router(user.router)
-app.include_router(item.router)
+app.include_router(group.router)
