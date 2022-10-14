@@ -6,6 +6,18 @@
 docker-compose -f docker-compose.yml up --build
 ```
 
+## To only use DB with Docker
+
+```bash
+docker-compose -f docker-compose.yml up -d --build db
+```
+
+To start the API using a local Python environment:
+
+```
+uvicorn src.app:app --reload
+```
+
 ## Debug in VSCode
 
 First build and start the containers in debug mode:
@@ -19,35 +31,34 @@ Then in VSCode:
 - Select the *Python: Remote Attach* configuration
 - Start debugging
 
-## To start up API and DB separately (for reference)
+## Without Docker Compose (for reference)
 
 ```bash
+docker volume create mysql
+docker volume create mysql_config
 docker network create dnyfnet
 ```
 
 ```bash
 docker build --tag dnyf-group-api .
-docker run -d -p 8000:8000 --network dnyfnet --name dnyf-group-api dnyf-group-api
 ```
 
 ```bash
-docker run --name dnyf-group-db \
+docker run --name dnyf-group-api \
+    -p 8000:8000 \
     --network dnyfnet \
-    -e POSTGRES_PASSWORD=dbuser \
-    -e POSTGRES_USER=dbuser \
-    -e POSTGRES_DB=dnyf-group-db \
-    -p 5432:5432 \
-    -d postgres:14.5-alpine
+    -d dnyf-group-api
 ```
-
-To connect to Postgres from within the DB container:
 
 ```bash
-psql -U dbuser -d dnyf-group-db
-```
-
-To start the API using a local Python environment:
-
-```
-uvicorn src.app:app --reload
+docker run --rm --name dnyf-group-db \
+    --network dnyfnet \
+    -v mysql:/var/lib/mysql \
+    -v mysql_config:/etc/mysql \
+    -e MYSQL_ROOT_PASSWORD=dbuser \
+    -e MYSQL_USER=dbuser \
+    -e MYSQL_PASSWORD=dbuser \
+    -e MYSQL_DATABASE=dnyf-group-db \
+    -p 3306:3306 \
+    -d mysql:8.0
 ```
