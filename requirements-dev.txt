@@ -1,0 +1,4 @@
+-r requirements.txt
+awsebcli
+pytest
+flake8
