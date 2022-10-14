@@ -6,6 +6,12 @@
 docker-compose -f docker-compose.yml up --build
 ```
 
+Upgrade DB schema
+
+```
+alembic upgrade head
+```
+
 ## To only use DB with Docker
 
 ```bash

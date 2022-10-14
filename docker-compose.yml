@@ -10,12 +10,13 @@ services:
       - 8000:8000
     volumes:
       - ./:/app
+    networks:
+      - dnyfnet
     depends_on:
       - db
 
   db:
     image: mysql:8.0
-    hostname: dnyf-group-db
     ports:
       - 3306:3306
     environment:
@@ -26,7 +27,14 @@ services:
     volumes:
       - mysql:/var/lib/mysql
       - mysql_config:/etc/mysql
+    networks:
+      dnyfnet:
+        aliases:
+        - dnyf-group-db
 
 volumes:
   mysql:
   mysql_config:
+
+networks:
+  dnyfnet:
