@@ -1,5 +1,7 @@
+# Standard library imports
 from typing import Union
 
+# Third party imports
 from pydantic import BaseModel
 
 

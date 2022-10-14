@@ -1,12 +1,18 @@
+"""
+User endpoint routing
+"""
+# Standard library imports
 from typing import List
-
+# Third party imports
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
+# Local application imports
 from ..db.base import get_db
 from ..schema.user import User, UserCreate
 from ..schema.item import Item, ItemCreate
 from ..crud.user import get_user, get_user_by_email, get_users, create_user, create_user_item
+
 
 router = APIRouter(
     prefix='/users',

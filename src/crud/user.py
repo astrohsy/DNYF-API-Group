@@ -1,9 +1,12 @@
+# Third party imports
 from sqlalchemy.orm import Session
 
+# Local application imports
 from ..db.user import User
 from ..db.item import Item
 from ..schema.user import UserCreate
 from ..schema.item import ItemCreate
+
 
 def get_user(db: Session, user_id: int):
     return db.query(User).filter(User.id == user_id).first()

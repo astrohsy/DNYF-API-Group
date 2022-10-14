@@ -1,6 +1,8 @@
+# Third party imports
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
+# Local application imports
 from .base import Base
 
 

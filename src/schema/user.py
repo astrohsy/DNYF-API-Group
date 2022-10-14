@@ -2,7 +2,9 @@ from typing import List, Union
 
 from pydantic import BaseModel
 
+# Local application imports
 from .item import Item
+
 
 class UserBase(BaseModel):
     email: str

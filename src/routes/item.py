@@ -1,11 +1,18 @@
+"""
+Item endpoint routing
+"""
+# Standard library imports
 from typing import List
 
+# Third party imports
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
+# Local application imports
 from ..db.base import get_db
 from ..schema.item import Item
 from ..crud.item import get_items
+
 
 router = APIRouter(
     prefix='/items',
