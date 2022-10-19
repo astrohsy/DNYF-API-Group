@@ -11,7 +11,7 @@ class GroupCreateDto(GroupBaseDto):
 
 
 class GroupDto(GroupBaseDto):
-    id: int
+    group_id: int
 
     class Config:
         orm_mode = True

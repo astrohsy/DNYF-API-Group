@@ -1,13 +1,12 @@
 # Third party imports
-from sqlalchemy import Boolean, Column, Integer, String
+from sqlalchemy import Column, Integer, String
 
 # Local application imports
 from .base import Base
 
 
 class Group(Base):
-    __tablename__ = "groups"
+    __tablename__ = "dnyf_groups"  # `groups` is a reserved word in MySQL...
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(100), index=True)
-    capacity = Column(Integer)
+    group_id = Column(Integer, primary_key=True)
+    group_name = Column(String(100))
