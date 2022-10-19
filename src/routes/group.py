@@ -27,7 +27,7 @@ def read_groups(offset: int = 0, limit: int = 100,
     return groups
 
 
-@router.get("/{user_id}", response_model=GroupDto)
+@router.get("/{group_id}", response_model=GroupDto)
 def read_group(group_id: int, db: Session = Depends(get_db)):
     db_group = group_crud.get_group(db, group_id=group_id)
 
