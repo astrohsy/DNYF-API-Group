@@ -11,4 +11,3 @@ class Group(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(100), index=True)
     capacity = Column(Integer)
-    accepting_new = Column(Boolean, default=True)

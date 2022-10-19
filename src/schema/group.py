@@ -4,7 +4,6 @@ from pydantic import BaseModel
 
 class GroupBaseDto(BaseModel):
     group_name: str
-    accepting_new: bool
 
 
 class GroupCreateDto(GroupBaseDto):
