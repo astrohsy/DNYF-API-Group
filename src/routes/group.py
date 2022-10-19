@@ -15,15 +15,15 @@ from ..crud import group as group_crud
 
 
 router = APIRouter(
-    prefix='/users',
-    tags=['users']
+    prefix='/groups',
+    tags=['groups']
 )
 
 
 @router.get("/", response_model=List[GroupDto])
-def read_groups(skip: int = 0, limit: int = 100,
+def read_groups(offset: int = 0, limit: int = 100,
                 db: Session = Depends(get_db)):
-    groups = group_crud.get_groups(db, skip=skip, limit=limit)
+    groups = group_crud.get_groups(db, offset=offset, limit=limit)
     return groups
 
 
