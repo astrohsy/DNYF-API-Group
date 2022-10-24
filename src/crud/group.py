@@ -23,3 +23,10 @@ def create_group(db: Session, group: GroupCreateDto) -> Group:
     db.commit()
     db.refresh(db_group)
     return db_group
+
+def delete_group(db: Session, group_id: int) -> Union[Group, None]: 
+    db_group = db.query(Group).filter(Group.group_id == group_id).first()
+    db.delete(db_group)
+    db.commit()
+    db.refresh
+    return
