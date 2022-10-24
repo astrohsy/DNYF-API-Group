@@ -47,3 +47,14 @@ def add_member(new_member: dict, db: Session,  group_id: int) -> Union[Group, No
     db.refresh
     db_group = db.query(Group).filter(Group.group_id == group_id).first()
     return db_group
+
+def delete_member(db: Session, group_id:int, member_id:int) -> Union[Group, None]: 
+    del_assoc = db.query(Association).filter(
+        Association.group_id == group_id, 
+        Association.member_id == member_id
+        ).first()
+    db.delete(del_assoc)
+    db.commit()
+    db.refresh
+    db_group = db.query(Group).filter(Group.group_id == group_id).first()
+    return db_group
