@@ -16,6 +16,10 @@ def get_group(db: Session, group_id: int) -> Union[Group, None]:
 def get_groups(db: Session, offset: int = 0, limit: int = 10) -> List[Group]:
     return db.query(Group).offset(offset).limit(limit).all()
 
+def get_members(group_id: int, db: Session, offset: int = 0, limit: int = 10) -> List[Members]:
+    assoc = db.query(Association).filter(Association.group_id == group_id).offset(offset).limit(limit).all()
+    return assoc
+
 
 def create_group(db: Session, group: GroupCreateDto) -> Group:
     db_group = Group(**group.dict())

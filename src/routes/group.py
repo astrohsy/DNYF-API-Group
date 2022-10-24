@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 
 # Local application imports
 from ..db.base import get_db
-from ..schema.group import GroupDto, GroupCreateDto
+from ..schema.group import GroupDto, GroupCreateDto, MemberDto
 from ..crud import group as group_crud
 
 router = APIRouter(
@@ -35,6 +35,13 @@ def read_group(group_id: int, db: Session = Depends(get_db)):
 
     return db_group
 
+@router.get("/{group_id}/members", response_model=List[MemberDto])
+def get_members(group_id: int, offset: int = 0, limit: int = 100,
+                db: Session = Depends(get_db)):
+    members = group_crud.get_members(group_id=group_id, offset=offset, limit=limit, db=db)
+    return members
+
+
 
 @router.post("/", response_model=GroupDto)
 def create_group(group: GroupCreateDto, db: Session = Depends(get_db)):
@@ -43,12 +50,20 @@ def create_group(group: GroupCreateDto, db: Session = Depends(get_db)):
 
 @router.post("/{group_id}/members", response_model=GroupDto)
 def add_member(new_member: dict, group_id:int, db: Session = Depends(get_db)):
+    db_group = group_crud.get_group(db, group_id=group_id)
+    if db_group is None:
+        raise HTTPException(status_code=404, detail="Group not found")
+
     return group_crud.add_member(db=db, new_member=new_member, group_id=group_id)
 
 
 @router.delete("/{group_id}")
 def delete_group(group_id: int, db: Session = Depends(get_db), response_model=GroupDto):
     #raise an error here 
+    db_group = group_crud.get_group(db, group_id=group_id)
+    if db_group is None:
+        raise HTTPException(status_code=404, detail="Group not found")
+
     return group_crud.delete_group(db=db, group_id=group_id)
 
 

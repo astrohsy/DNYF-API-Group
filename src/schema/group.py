@@ -16,3 +16,9 @@ class GroupDto(GroupBaseDto):
 
     class Config:
         orm_mode = True
+
+class MemberDto(BaseModel):
+    member_id:int
+
+    class Config:
+        orm_mode = True 
