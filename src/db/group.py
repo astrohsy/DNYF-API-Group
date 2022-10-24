@@ -10,3 +10,4 @@ class Group(Base):
 
     group_id = Column(Integer, primary_key=True)
     group_name = Column(String(100))
+    group_capacity = Column(Integer)

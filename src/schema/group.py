@@ -4,10 +4,11 @@ from pydantic import BaseModel
 
 class GroupBaseDto(BaseModel):
     group_name: str
-
+    
 
 class GroupCreateDto(GroupBaseDto):
-    pass
+    group_capacity: int
+
 
 
 class GroupDto(GroupBaseDto):

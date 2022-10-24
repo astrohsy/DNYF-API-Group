@@ -6,8 +6,7 @@ from sqlalchemy.orm import Session
 
 # Local application imports
 from ..db.group import Group
-from ..schema.group import GroupCreateDto
-
+from ..schema.group import GroupCreateDto, GroupBaseDto
 
 def get_group(db: Session, group_id: int) -> Union[Group, None]:
     return db.query(Group).filter(Group.group_id == group_id).first()
@@ -30,3 +29,10 @@ def delete_group(db: Session, group_id: int) -> Union[Group, None]:
     db.commit()
     db.refresh
     return
+
+def put_groupname(new_group: dict, db: Session,  group_id: int) -> Union[Group, None]: 
+    db.query(Group).filter(Group.group_id == group_id).update(new_group, synchronize_session="fetch")
+    db.commit()
+    db.refresh
+    db_group = db.query(Group).filter(Group.group_id == group_id).first()
+    return db_group
