@@ -5,7 +5,7 @@ from sqlalchemy import pool
 from alembic import context
 
 from src.db.base import Base
-from src.db import group  # noqa
+from src.db import group, members  # noqa
 from src.config import settings
 
 # this is the Alembic Config object, which provides

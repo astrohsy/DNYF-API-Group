@@ -41,6 +41,11 @@ def create_group(group: GroupCreateDto, db: Session = Depends(get_db)):
     return group_crud.create_group(db=db, group=group)
 
 
+@router.post("/{group_id}/members", response_model=GroupDto)
+def add_member(new_member: dict, db: Session = Depends(get_db)):
+    return group_crud.add_member(db=db, new_member=new_member)
+
+
 @router.delete("/{group_id}")
 def delete_group(group_id: int, db: Session = Depends(get_db)):
     #raise an error here 
