@@ -67,11 +67,11 @@ def delete_group(group_id: int, db: Session = Depends(get_db), response_model=Gr
 
 
 @router.delete("/{group_id}/members/{member_id}")
-def delete_member(group_id: int, member_id:int, db: Session = Depends(get_db), response_model=GroupDto):
+def delete_member(group_id: int, member_id:int, db: Session = Depends(get_db)):
     #raise an error here 
     return group_crud.delete_member(db=db, group_id=group_id, member_id=member_id)
     
-@router.put("/{group_id}")
+@router.put("/{group_id}", response_model=GroupDto)
 def put_groupname(new_group: dict, group_id: int, db: Session = Depends(get_db)):
     #raise an error here 
     return group_crud.put_groupname(new_group=new_group, db=db,  group_id=group_id)
