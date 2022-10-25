@@ -42,7 +42,6 @@ def get_members(group_id: int, offset: int = 0, limit: int = 100,
     return members
 
 
-
 @router.post("/", response_model=GroupDto)
 def create_group(group: GroupCreateDto, db: Session = Depends(get_db)):
     return group_crud.create_group(db=db, group=group)
