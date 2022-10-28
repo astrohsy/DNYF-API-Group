@@ -14,9 +14,11 @@ from ..crud import group as group_crud
 
 router = APIRouter()
 
+
 @router.get("/")
 async def get_whatever():
     return "hello"
+
 
 @router.get("/api/health")
 async def get_health():
@@ -26,4 +28,5 @@ async def get_health():
         "health": "Good",
         "at time": t
     }
-    return msg 
+
+    return msg

@@ -1,5 +1,17 @@
 # DFNY Group API
 
+## ElasticBeanstalk
+
+1. Activate Python virtual env
+2. `pip install awsebcli`
+3. **If your virtual env files are stored in the application folder, add them to `.ebignore` to prevent them from being uploaded to ElasticBeanstalk.**
+4. *One-time*: `eb init` -> 1 -> DNYF-API-Group -> N -> Python -> Python 3.8 -> N -> N
+5. Create EB environment and deploy existing code: `eb create dnyf-group-api-prod --single`
+6. Deploy new code: `eb deploy dnyf-group-api-prod`
+7. Terminate EB environment: `eb terminate`
+
+Terminating cleans up all resources associated with the environment.
+
 ## Install dependencies
 
 ```
