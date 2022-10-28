@@ -5,7 +5,9 @@ Main API entrypoint
 from fastapi import FastAPI
 
 # Local application imports
-from .routes import group, health
+from .routes import group
+from .routes import health
+
 
 app = FastAPI()
 app.include_router(group.router)

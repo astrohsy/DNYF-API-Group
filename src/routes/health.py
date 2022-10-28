@@ -28,4 +28,5 @@ async def get_health():
         "health": "Good",
         "at time": t
     }
+
     return msg
