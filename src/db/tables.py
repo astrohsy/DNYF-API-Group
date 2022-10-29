@@ -14,13 +14,13 @@ association_table = Table(
 )
 
 class Members(Base):
-    __tablename__ = "members" 
+    __tablename__ = "members"
     member_id = Column(Integer, primary_key=True)
     groups = relationship(
-        "Group", 
-        secondary=association_table, 
-        back_populates="members", 
-        passive_deletes=True, 
+        "Group",
+        secondary=association_table,
+        back_populates="members",
+        passive_deletes=True,
     )
 
 class Group(Base):
