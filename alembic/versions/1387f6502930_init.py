@@ -1,8 +1,8 @@
 # flake8: noqa
 """init
 
-Revision ID: 1387f6502930
-Revises: 
+Revision ID: 1ba081de97ba
+Revises:
 Create Date: 2022-10-18 21:49:33.742365
 
 """
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '1387f6502930'
+revision = '1ba081de97ba'
 down_revision = None
 branch_labels = None
 depends_on = None
