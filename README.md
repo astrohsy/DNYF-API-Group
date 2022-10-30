@@ -24,6 +24,12 @@ pip install -r requirements-dev.txt
 pre-commit install
 ```
 
+## Lint with Flake8
+
+```
+flake8 . --count --statistics
+```
+
 ## Start up local API and DB
 
 ```bash
