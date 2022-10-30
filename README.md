@@ -18,6 +18,12 @@ Terminating cleans up all resources associated with the environment.
 pip install -r requirements-dev.txt
 ```
 
+## Activate pre-commit hooks
+
+```
+pre-commit install
+```
+
 ## Start up local API and DB
 
 ```bash
