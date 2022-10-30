@@ -1,15 +1,8 @@
 # Standard library imports
-from typing import List
 from datetime import datetime
 
 # Third party imports
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-
-# Local application imports
-from ..db.base import get_db
-from ..schema.group import GroupDto, GroupCreateDto
-from ..crud import group as group_crud
+from fastapi import APIRouter
 
 
 router = APIRouter()

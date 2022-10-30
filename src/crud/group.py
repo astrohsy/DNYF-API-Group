@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 # Local application imports
 from ..db.tables import Members, association_table, Group
-from ..schema.group import GroupCreateDto, GroupBaseDto
+from ..schema.group import GroupCreateDto
 
 
 def get_group(db: Session, group_id: int) -> Union[Group, None]:
@@ -27,6 +27,7 @@ def get_members(
         .limit(limit)
         .all()
     )
+
     return assoc
 
 
@@ -35,6 +36,7 @@ def create_group(db: Session, group: GroupCreateDto) -> Group:
     db.add(db_group)
     db.commit()
     db.refresh(db_group)
+
     return db_group
 
 
@@ -43,7 +45,7 @@ def delete_group(db: Session, group_id: int) -> Union[Group, None]:
     deleted_group = db_group
     db.delete(db_group)
     db.commit()
-    db.refresh
+
     return deleted_group
 
 
@@ -52,33 +54,28 @@ def put_groupname(new_group: dict, db: Session, group_id: int) -> Union[Group, N
         new_group, synchronize_session="fetch"
     )
     db.commit()
-    db.refresh
     db_group = db.query(Group).filter(Group.group_id == group_id).first()
+
     return db_group
 
 
 def add_member(new_member: dict, db: Session, group_id: int) -> Union[Group, None]:
-    # db.query(Group).filter(Group.group_id == group_id).update(new_group, synchronize_session="fetch")
     db.execute(
         association_table.insert(),
         params=new_member,
     )
     db.commit()
-    db.refresh
     db_group = db.query(Group).filter(Group.group_id == group_id).first()
+
     return db_group
 
 
 def delete_member(db: Session, group_id: int, member_id: int) -> Union[Group, None]:
-    assoc = (
-        db.query(association_table)
-        .filter(
-            association_table.c.group_id == group_id,
-            association_table.c.member_id == member_id,
-        )
-        .delete()
-    )
+    db.query(association_table).filter(
+        association_table.c.group_id == group_id,
+        association_table.c.member_id == member_id,
+    ).delete()
     db.commit()
-    db.refresh
     db_group = db.query(Group).filter(Group.group_id == group_id).first()
+
     return db_group
