@@ -2,3 +2,4 @@
 awsebcli
 pytest
 flake8
+black

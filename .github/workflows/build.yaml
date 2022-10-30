@@ -23,3 +23,5 @@ jobs:
       - name: Lint with flake8
         run: |
           flake8 . --count --max-line-length=127 --statistics
+      - name: Format with Black
+        uses: psf/black@stable
