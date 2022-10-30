@@ -1,6 +1,8 @@
 # DFNY Group API
 
-## ElasticBeanstalk
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+## Deployment with ElasticBeanstalk
 
 1. Activate Python virtual env
 2. `pip install awsebcli`
@@ -12,66 +14,56 @@
 
 Terminating cleans up all resources associated with the environment.
 
-## Install dependencies
-
+## Development
+### Install dependencies
 ```
 pip install -r requirements-dev.txt
 ```
 
-## Activate pre-commit hooks
-
+### Activate pre-commit hooks
 ```
 pre-commit install
 ```
 
-## Lint with Flake8
-
+### Lint with Flake8
 ```
 flake8 . --count --statistics
 ```
 
-## Start up local API and DB
-
-```bash
-docker-compose -f docker-compose.yml up --build
-```
-
-## DB migrations
-
-Upgrade local DB schema
-
+### DB migrations
+Upgrade local DB schema:
 ```
 alembic upgrade head
 ```
 
-Upgrade RDS schema
-
+Upgrade RDS schema:
 ```
 PROD_FLAG=1 alembic upgrade head
 ```
 
-Generate a migration
-
+Generate a migration:
 ```
 alembic revision --autogenerate -m "Description"
 ```
 
-## To only use DB with Docker
+## Running the service
+### Start up local API and DB
+```bash
+docker-compose -f docker-compose.yml up --build
+```
 
+### Only using DB with Docker
 ```bash
 docker-compose -f docker-compose.yml up -d --build db
 ```
 
 To start the API using a local Python environment:
-
 ```
 uvicorn src.app:app --reload
 ```
 
-## Debug in VSCode
-
+### Debugging in VSCode
 First build and start the containers in debug mode:
-
 ```bash
 docker-compose -f docker-compose.debug.yml up --build
 ```
@@ -81,8 +73,7 @@ Then in VSCode:
 - Select the *Python: Remote Attach* configuration
 - Start debugging
 
-## Without Docker Compose (for reference)
-
+### Without Docker Compose (for reference)
 ```bash
 docker volume create mysql
 docker volume create mysql_config
