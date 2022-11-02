@@ -3,7 +3,7 @@ from enum import Enum
 
 # Third party imports
 from pydantic import BaseModel, validator
-from typing import List, Optional, Union
+from typing import List, Union
 
 
 class HTTPMethod(str, Enum):
@@ -20,22 +20,30 @@ class Link(BaseModel):
 
 
 class GroupBaseDto(BaseModel):
+    """Shared properties."""
+
     group_name: str
     group_capacity: int
 
 
 class GroupPostDto(GroupBaseDto):
+    """Group properties to receive on group creation."""
+
     pass
 
 
-class GroupPutDto(BaseModel):
+class GroupPutDto(GroupBaseDto):
+    """Group properties to receive on group update."""
+
     group_name: Union[str, None] = None
     group_capacity: Union[int, None] = None
 
 
 class GroupDto(GroupBaseDto):
+    """Group roperties with links."""
+
     group_id: int
-    links: Optional[List[Link]]
+    links: List[Link]
 
     @validator("links", always=True)
     def validate_links(cls, value, values):
@@ -63,7 +71,18 @@ class GroupDto(GroupBaseDto):
         orm_mode = True
 
 
-class GroupDtoPaginated(BaseModel):
+class GroupGetDto(BaseModel):
+    """Group properties to return to client."""
+
+    data: GroupDto
+
+    class Config:
+        orm_mode = True
+
+
+class GroupGetDtoPaginated(BaseModel):
+    """Group roperties to return to client with pagination."""
+
     data: List[GroupDto]
     links: List[Link]
 
@@ -73,7 +92,7 @@ class GroupDtoPaginated(BaseModel):
 
 class MemberDto(BaseModel):
     member_id: int
-    links: Optional[List[Link]]
+    links: List[Link]
 
     @validator("links", always=True)
     def validate_links(cls, value, values):
@@ -85,6 +104,15 @@ class MemberDto(BaseModel):
             }
         ]
         return links
+
+    class Config:
+        orm_mode = True
+
+
+class MemberGetDto(BaseModel):
+    """Member properties to return to client."""
+
+    data: List[MemberDto]
 
     class Config:
         orm_mode = True

@@ -11,12 +11,11 @@ from sqlalchemy.orm import Session
 # Local application imports
 from ..db.base import get_db
 from ..schema.group import (
-    GroupBaseDto,
-    GroupDto,
+    GroupGetDto,
     GroupPostDto,
     GroupPutDto,
-    MemberDto,
-    GroupDtoPaginated,
+    GroupGetDtoPaginated,
+    MemberGetDto,
 )
 from ..crud import group as group_crud
 
@@ -26,7 +25,7 @@ DEFAULT_OFFSET = 0
 DEFAULT_LIMIT = 100
 
 
-@router.get("/", response_model=GroupDtoPaginated)
+@router.get("/", response_model=GroupGetDtoPaginated)
 def read_groups(
     offset: int = DEFAULT_OFFSET,
     limit: int = DEFAULT_LIMIT,
@@ -56,59 +55,64 @@ def read_groups(
             }
         )
 
-    return GroupDtoPaginated(data=groups, links=links)
+    return GroupGetDtoPaginated(data=groups, links=links)
 
 
-@router.get("/{group_id}", response_model=GroupDto)
+@router.get("/{group_id}", response_model=GroupGetDto)
 def read_group(group_id: int, db: Session = Depends(get_db)):
     db_group = group_crud.get_group(db, group_id=group_id)
 
     if db_group is None:
         raise HTTPException(status_code=404, detail="Group not found")
 
-    return db_group
+    return GroupGetDto(data=db_group)
 
 
-@router.get("/{group_id}/members", response_model=List[MemberDto])
+@router.get("/{group_id}/members", response_model=MemberGetDto)
 def get_members(
     group_id: int,
     db: Session = Depends(get_db),
 ):
     members = group_crud.get_members(group_id=group_id, db=db)
-    return members
+    return MemberGetDto(data=members)
 
 
-@router.post("/", response_model=GroupDto)
+@router.post("/", response_model=GroupGetDto)
 def create_group(group: GroupPostDto, db: Session = Depends(get_db)):
-    return group_crud.create_group(db=db, group=group)
+    db_group = group_crud.create_group(db=db, group=group)
+    return GroupGetDto(data=db_group)
 
 
-@router.post("/{group_id}/members", response_model=GroupDto)
+@router.post("/{group_id}/members", response_model=GroupGetDto)
 def add_member(new_member: dict, group_id: int, db: Session = Depends(get_db)):
     db_group = group_crud.get_group(db, group_id=group_id)
     if db_group is None:
         raise HTTPException(status_code=404, detail="Group not found")
 
-    return group_crud.add_member(db=db, new_member=new_member, group_id=group_id)
+    db_group = group_crud.add_member(db=db, new_member=new_member, group_id=group_id)
+    return GroupGetDto(data=db_group)
 
 
-@router.delete("/{group_id}", response_model=GroupDto)
+@router.delete("/{group_id}", response_model=GroupGetDto)
 def delete_group(group_id: int, db: Session = Depends(get_db)):
     # Raise an error here
     db_group = group_crud.get_group(db, group_id=group_id)
     if db_group is None:
         raise HTTPException(status_code=404, detail="Group not found")
 
-    return group_crud.delete_group(db=db, group_id=group_id)
+    db_group = group_crud.delete_group(db=db, group_id=group_id)
+    return GroupGetDto(data=db_group)
 
 
-@router.delete("/{group_id}/members/{member_id}", response_model=GroupDto)
+@router.delete("/{group_id}/members/{member_id}", response_model=GroupGetDto)
 def delete_member(group_id: int, member_id: int, db: Session = Depends(get_db)):
     # Raise an error here
-    return group_crud.delete_member(db=db, group_id=group_id, member_id=member_id)
+    db_group = group_crud.delete_member(db=db, group_id=group_id, member_id=member_id)
+    return GroupGetDto(data=db_group)
 
 
-@router.put("/{group_id}", response_model=GroupDto)
+@router.put("/{group_id}", response_model=GroupGetDto)
 def put_groupname(new_group: GroupPutDto, group_id: int, db: Session = Depends(get_db)):
     # Raise an error here
-    return group_crud.put_groupname(new_group=new_group, db=db, group_id=group_id)
+    db_group = group_crud.put_groupname(new_group=new_group, db=db, group_id=group_id)
+    return GroupGetDto(data=db_group)
