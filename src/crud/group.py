@@ -21,14 +21,10 @@ def get_groups(db: Session, offset: int = 0, limit: int = 10) -> List[Group]:
     return db.query(Group).offset(offset).limit(limit).all()
 
 
-def get_members(
-    group_id: int, db: Session, offset: int = 0, limit: int = 10
-) -> List[Members]:
+def get_members(group_id: int, db: Session) -> List[Members]:
     assoc = (
         db.query(association_table)
         .filter(association_table.c.group_id == group_id)
-        .offset(offset)
-        .limit(limit)
         .all()
     )
 

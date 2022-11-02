@@ -65,13 +65,9 @@ def read_group(group_id: int, db: Session = Depends(get_db)):
 @router.get("/{group_id}/members", response_model=List[MemberDto])
 def get_members(
     group_id: int,
-    offset: int = DEFAULT_OFFSET,
-    limit: int = DEFAULT_LIMIT,
     db: Session = Depends(get_db),
 ):
-    members = group_crud.get_members(
-        group_id=group_id, offset=offset, limit=limit, db=db
-    )
+    members = group_crud.get_members(group_id=group_id, db=db)
     return members
 
 
