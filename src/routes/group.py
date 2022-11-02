@@ -10,16 +10,46 @@ from sqlalchemy.orm import Session
 
 # Local application imports
 from ..db.base import get_db
-from ..schema.group import GroupDto, GroupCreateDto, MemberDto
+from ..schema.group import GroupDto, GroupCreateDto, MemberDto, GroupDtoPaginated
 from ..crud import group as group_crud
 
 router = APIRouter(prefix="/groups", tags=["groups"])
 
+DEFAULT_OFFSET = 0
+DEFAULT_LIMIT = 100
 
-@router.get("/", response_model=List[GroupDto])
-def read_groups(offset: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+
+@router.get("/", response_model=GroupDtoPaginated)
+def read_groups(
+    offset: int = DEFAULT_OFFSET,
+    limit: int = DEFAULT_LIMIT,
+    db: Session = Depends(get_db),
+):
     groups = group_crud.get_groups(db, offset=offset, limit=limit)
-    return groups
+
+    total = group_crud.count_groups(db)
+    links = []
+
+    if offset + limit < total:
+        links.append(
+            {
+                "href": f"/groups?offset={offset + limit}&limit={limit}",
+                "rel": "get_next_group_page",
+                "type": "GET",
+            }
+        )
+
+    if offset > 0:
+        prev = max(0, offset - limit)
+        links.append(
+            {
+                "href": f"/groups?offset={prev}&limit={limit}",
+                "rel": "get_prev_group_page",
+                "type": "GET",
+            }
+        )
+
+    return GroupDtoPaginated(data=groups, links=links)
 
 
 @router.get("/{group_id}", response_model=GroupDto)
@@ -34,7 +64,10 @@ def read_group(group_id: int, db: Session = Depends(get_db)):
 
 @router.get("/{group_id}/members", response_model=List[MemberDto])
 def get_members(
-    group_id: int, offset: int = 0, limit: int = 100, db: Session = Depends(get_db)
+    group_id: int,
+    offset: int = DEFAULT_OFFSET,
+    limit: int = DEFAULT_LIMIT,
+    db: Session = Depends(get_db),
 ):
     members = group_crud.get_members(
         group_id=group_id, offset=offset, limit=limit, db=db

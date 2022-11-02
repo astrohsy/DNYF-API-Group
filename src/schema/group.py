@@ -1,6 +1,22 @@
+# Standard library imports
+from enum import Enum
+
 # Third party imports
 from pydantic import BaseModel, validator
 from typing import List, Dict, Optional
+
+
+class HTTPMethod(str, Enum):
+    get = "GET"
+    post = "POST"
+    put = "PUT"
+    delete = "DELETE"
+
+
+class Link(BaseModel):
+    href: str
+    rel: str
+    type: HTTPMethod
 
 
 class GroupBaseDto(BaseModel):
@@ -14,7 +30,7 @@ class GroupCreateDto(GroupBaseDto):
 
 class GroupDto(GroupBaseDto):
     group_id: int
-    links: Optional[List[Dict]]
+    links: Optional[List[Link]]
 
     @validator("links", always=True)
     def validate_links(cls, value, values):
@@ -37,6 +53,14 @@ class GroupDto(GroupBaseDto):
             },
         ]
         return links
+
+    class Config:
+        orm_mode = True
+
+
+class GroupDtoPaginated(BaseModel):
+    data: List[GroupDto]
+    links: List[Link]
 
     class Config:
         orm_mode = True
