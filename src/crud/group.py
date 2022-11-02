@@ -49,7 +49,7 @@ def delete_group(db: Session, group_id: int) -> Union[Group, None]:
     return deleted_group
 
 
-def put_groupname(
+def edit_group(
     new_group: GroupPutDto, db: Session, group_id: int
 ) -> Union[Group, None]:
     db.query(Group).filter(Group.group_id == group_id).update(

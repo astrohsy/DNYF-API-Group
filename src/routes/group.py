@@ -114,7 +114,7 @@ def delete_member(group_id: int, member_id: int, db: Session = Depends(get_db)):
 
 
 @router.put("/{group_id}", response_model=GroupGetDto)
-def put_groupname(new_group: GroupPutDto, group_id: int, db: Session = Depends(get_db)):
+def edit_group(new_group: GroupPutDto, group_id: int, db: Session = Depends(get_db)):
     # Raise an error here
-    db_group = group_crud.put_groupname(new_group=new_group, db=db, group_id=group_id)
+    db_group = group_crud.edit_group(new_group=new_group, db=db, group_id=group_id)
     return GroupGetDto(data=db_group)
