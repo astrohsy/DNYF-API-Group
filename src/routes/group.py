@@ -1,9 +1,6 @@
 """
 User endpoint routing
 """
-# Standard library imports
-from typing import List
-
 # Third party imports
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session

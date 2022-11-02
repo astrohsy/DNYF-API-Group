@@ -14,6 +14,8 @@ class HTTPMethod(str, Enum):
 
 
 class Link(BaseModel):
+    """Link properties."""
+
     href: str
     rel: str
     type: HTTPMethod
