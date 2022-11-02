@@ -10,7 +10,14 @@ from sqlalchemy.orm import Session
 
 # Local application imports
 from ..db.base import get_db
-from ..schema.group import GroupDto, GroupCreateDto, MemberDto, GroupDtoPaginated
+from ..schema.group import (
+    GroupBaseDto,
+    GroupDto,
+    GroupCreateDto,
+    GroupPutDto,
+    MemberDto,
+    GroupDtoPaginated,
+)
 from ..crud import group as group_crud
 
 router = APIRouter(prefix="/groups", tags=["groups"])
@@ -102,6 +109,6 @@ def delete_member(group_id: int, member_id: int, db: Session = Depends(get_db)):
 
 
 @router.put("/{group_id}", response_model=GroupDto)
-def put_groupname(new_group: dict, group_id: int, db: Session = Depends(get_db)):
+def put_groupname(new_group: GroupPutDto, group_id: int, db: Session = Depends(get_db)):
     # Raise an error here
     return group_crud.put_groupname(new_group=new_group, db=db, group_id=group_id)

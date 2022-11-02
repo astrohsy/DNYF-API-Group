@@ -3,7 +3,7 @@ from enum import Enum
 
 # Third party imports
 from pydantic import BaseModel, validator
-from typing import List, Dict, Optional
+from typing import List, Optional, Union
 
 
 class HTTPMethod(str, Enum):
@@ -26,6 +26,11 @@ class GroupBaseDto(BaseModel):
 
 class GroupCreateDto(GroupBaseDto):
     pass
+
+
+class GroupPutDto(BaseModel):
+    group_name: Union[str, None] = None
+    group_capacity: Union[int, None] = None
 
 
 class GroupDto(GroupBaseDto):
@@ -68,7 +73,7 @@ class GroupDtoPaginated(BaseModel):
 
 class MemberDto(BaseModel):
     member_id: int
-    links: Optional[List[Dict]]
+    links: Optional[List[Link]]
 
     @validator("links", always=True)
     def validate_links(cls, value, values):
