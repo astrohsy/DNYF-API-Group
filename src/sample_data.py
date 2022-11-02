@@ -1,5 +1,5 @@
 # Local application imports
-from .schema.group import GroupCreateDto
+from .schema.group import GroupPostDto
 from .db.base import SessionLocal
 from .crud import group as group_crud
 
@@ -17,5 +17,5 @@ sample_groups = [
 def add_sample_data():
     db = SessionLocal()
     for group in sample_groups:
-        group_crud.create_group(db=db, group=GroupCreateDto(**group))
+        group_crud.create_group(db=db, group=GroupPostDto(**group))
     db.close()

@@ -24,7 +24,7 @@ class GroupBaseDto(BaseModel):
     group_capacity: int
 
 
-class GroupCreateDto(GroupBaseDto):
+class GroupPostDto(GroupBaseDto):
     pass
 
 

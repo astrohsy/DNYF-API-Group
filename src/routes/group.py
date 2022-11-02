@@ -13,7 +13,7 @@ from ..db.base import get_db
 from ..schema.group import (
     GroupBaseDto,
     GroupDto,
-    GroupCreateDto,
+    GroupPostDto,
     GroupPutDto,
     MemberDto,
     GroupDtoPaginated,
@@ -79,7 +79,7 @@ def get_members(
 
 
 @router.post("/", response_model=GroupDto)
-def create_group(group: GroupCreateDto, db: Session = Depends(get_db)):
+def create_group(group: GroupPostDto, db: Session = Depends(get_db)):
     return group_crud.create_group(db=db, group=group)
 
 

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 # Local application imports
 from ..db.tables import Members, association_table, Group
-from ..schema.group import GroupCreateDto, GroupPutDto
+from ..schema.group import GroupPostDto, GroupPutDto
 
 
 def get_group(db: Session, group_id: int) -> Union[Group, None]:
@@ -31,7 +31,7 @@ def get_members(group_id: int, db: Session) -> List[Members]:
     return assoc
 
 
-def create_group(db: Session, group: GroupCreateDto) -> Group:
+def create_group(db: Session, group: GroupPostDto) -> Group:
     db_group = Group(**group.dict())
     db.add(db_group)
     db.commit()
