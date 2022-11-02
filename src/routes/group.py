@@ -13,6 +13,7 @@ from ..schema.group import (
     GroupPutDto,
     GroupGetDtoPaginated,
     MemberGetDto,
+    MemberPostDto,
 )
 from ..crud import group as group_crud
 
@@ -81,12 +82,16 @@ def create_group(group: GroupPostDto, db: Session = Depends(get_db)):
 
 
 @router.post("/{group_id}/members", response_model=GroupGetDto)
-def add_member(new_member: dict, group_id: int, db: Session = Depends(get_db)):
+def add_member_to_group(
+    new_member: MemberPostDto, group_id: int, db: Session = Depends(get_db)
+):
     db_group = group_crud.get_group(db, group_id=group_id)
     if db_group is None:
         raise HTTPException(status_code=404, detail="Group not found")
 
-    db_group = group_crud.add_member(db=db, new_member=new_member, group_id=group_id)
+    db_group = group_crud.add_member_to_group(
+        db=db, new_member=new_member, group_id=group_id
+    )
     return GroupGetDto(data=db_group)
 
 

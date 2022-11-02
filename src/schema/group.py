@@ -111,6 +111,12 @@ class MemberDto(BaseModel):
         orm_mode = True
 
 
+class MemberPostDto(BaseModel):
+    """Member properties to receive on member creation."""
+
+    member_id: int
+
+
 class MemberGetDto(BaseModel):
     """Member properties to return to client."""
 
