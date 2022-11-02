@@ -30,21 +30,8 @@ pre-commit install
 flake8 . --count --statistics
 ```
 
-### DB migrations
-Upgrade local DB schema:
-```
-alembic upgrade head
-```
-
-Upgrade RDS schema:
-```
-PROD_FLAG=1 alembic upgrade head
-```
-
-Generate a migration:
-```
-alembic revision --autogenerate -m "Description"
-```
+### DB Schema
+The whole DB schema is re-created on app startup and data re-populated from the `sample_data.py` file
 
 ## Running the service
 ### Start up local API and DB
