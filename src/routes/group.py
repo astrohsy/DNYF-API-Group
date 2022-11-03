@@ -17,13 +17,13 @@ from ..schema.group import (
 )
 from ..crud import group as group_crud
 
-router = APIRouter(prefix="/groups", tags=["groups"])
+router = APIRouter(tags=["groups"])
 
 DEFAULT_OFFSET = 0
 DEFAULT_LIMIT = 100
 
 
-@router.get("/", response_model=GroupGetDtoPaginated)
+@router.get("/groups", response_model=GroupGetDtoPaginated)
 def read_groups(
     offset: int = DEFAULT_OFFSET,
     limit: int = DEFAULT_LIMIT,
@@ -56,7 +56,7 @@ def read_groups(
     return GroupGetDtoPaginated(data=groups, links=links)
 
 
-@router.get("/{group_id}", response_model=GroupGetDto)
+@router.get("/groups/{group_id}", response_model=GroupGetDto)
 def read_group(group_id: int, db: Session = Depends(get_db)):
     db_group = group_crud.get_group(db, group_id=group_id)
 
@@ -66,7 +66,7 @@ def read_group(group_id: int, db: Session = Depends(get_db)):
     return GroupGetDto(data=db_group)
 
 
-@router.get("/{group_id}/members", response_model=MemberGetDto)
+@router.get("/groups/{group_id}/members", response_model=MemberGetDto)
 def get_members(
     group_id: int,
     db: Session = Depends(get_db),
@@ -75,13 +75,13 @@ def get_members(
     return MemberGetDto(data=members)
 
 
-@router.post("/", response_model=GroupGetDto)
+@router.post("/groups", response_model=GroupGetDto)
 def create_group(group: GroupPostDto, db: Session = Depends(get_db)):
     db_group = group_crud.create_group(db=db, group=group)
     return GroupGetDto(data=db_group)
 
 
-@router.post("/{group_id}/members", response_model=GroupGetDto)
+@router.post("/groups/{group_id}/members", response_model=GroupGetDto)
 def add_member_to_group(
     new_member: MemberPostDto, group_id: int, db: Session = Depends(get_db)
 ):
@@ -95,7 +95,7 @@ def add_member_to_group(
     return GroupGetDto(data=db_group)
 
 
-@router.delete("/{group_id}", response_model=GroupGetDto)
+@router.delete("/groups/{group_id}", response_model=GroupGetDto)
 def delete_group(group_id: int, db: Session = Depends(get_db)):
     # Raise an error here
     db_group = group_crud.get_group(db, group_id=group_id)
@@ -106,14 +106,14 @@ def delete_group(group_id: int, db: Session = Depends(get_db)):
     return GroupGetDto(data=db_group)
 
 
-@router.delete("/{group_id}/members/{member_id}", response_model=GroupGetDto)
+@router.delete("/groups/{group_id}/members/{member_id}", response_model=GroupGetDto)
 def delete_member(group_id: int, member_id: int, db: Session = Depends(get_db)):
     # Raise an error here
     db_group = group_crud.delete_member(db=db, group_id=group_id, member_id=member_id)
     return GroupGetDto(data=db_group)
 
 
-@router.put("/{group_id}", response_model=GroupGetDto)
+@router.put("/groups/{group_id}", response_model=GroupGetDto)
 def edit_group(new_group: GroupPutDto, group_id: int, db: Session = Depends(get_db)):
     # Raise an error here
     db_group = group_crud.edit_group(new_group=new_group, db=db, group_id=group_id)

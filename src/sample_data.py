@@ -1,7 +1,8 @@
 # Local application imports
-from .schema.group import GroupPostDto
+from .schema.group import GroupPostDto, MemberPostDto
 from .db.base import SessionLocal
 from .crud import group as group_crud
+from .crud import member as member_crud
 
 
 sample_groups = [
@@ -13,9 +14,38 @@ sample_groups = [
     {"group_name": "PLT Peer Programming", "group_capacity": 2},
 ]
 
+sample_members = [
+    {"member_id": 1},
+    {"member_id": 2},
+    {"member_id": 3},
+    {"member_id": 4},
+    {"member_id": 5},
+    {"member_id": 6},
+]
+
+
+sample_group_memberships = [
+    (1, {"member_id": 1}),
+    (1, {"member_id": 2}),
+    (1, {"member_id": 3}),
+    (2, {"member_id": 4}),
+    (2, {"member_id": 5}),
+    (3, {"member_id": 6}),
+]
+
 
 def add_sample_data():
     db = SessionLocal()
+
     for group in sample_groups:
         group_crud.create_group(db=db, group=GroupPostDto(**group))
+
+    for member in sample_members:
+        member_crud.create_member(db=db, member=MemberPostDto(**member))
+
+    for group_id, member in sample_group_memberships:
+        group_crud.add_member_to_group(
+            db=db, group_id=group_id, new_member=MemberPostDto(**member)
+        )
+
     db.close()

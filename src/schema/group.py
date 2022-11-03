@@ -94,7 +94,7 @@ class GroupGetDtoPaginated(BaseModel):
 
 class MemberDto(BaseModel):
     member_id: int
-    links: List[Link]
+    links: Optional[List[Link]]
 
     @validator("links", always=True)
     def validate_links(cls, value, values):

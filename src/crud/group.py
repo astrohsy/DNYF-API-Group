@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 # Local application imports
 from ..db.tables import Members, association_table, Group
 from ..schema.group import GroupPostDto, GroupPutDto, MemberPostDto
+from ..crud import member as member_crud
 
 
 def get_group(db: Session, group_id: int) -> Union[Group, None]:
@@ -64,12 +65,10 @@ def edit_group(
 def add_member_to_group(
     new_member: MemberPostDto, db: Session, group_id: int
 ) -> Union[Group, None]:
-    """
-    TODO: This currently doesn't work
-    """
+    member_crud.create_member(db=db, member=new_member)
     db.execute(
         association_table.insert(),
-        params=new_member,
+        params={"group_id": group_id, "member_id": new_member.member_id},
     )
     db.commit()
     db_group = db.query(Group).filter(Group.group_id == group_id).first()
