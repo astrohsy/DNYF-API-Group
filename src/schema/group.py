@@ -3,7 +3,7 @@ from enum import Enum
 
 # Third party imports
 from pydantic import BaseModel, validator
-from typing import List, Union
+from typing import List, Optional, Union
 
 
 class HTTPMethod(str, Enum):
@@ -45,7 +45,7 @@ class GroupDto(GroupBaseDto):
     """Group roperties with links."""
 
     group_id: int
-    links: List[Link]
+    links: Optional[List[Link]]
 
     @validator("links", always=True)
     def validate_links(cls, value, values):
