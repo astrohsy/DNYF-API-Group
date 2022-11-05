@@ -8,6 +8,7 @@ from fastapi import FastAPI
 # Local application imports
 from .routes import group
 from .routes import health
+from .routes import base
 from .db.base import engine, Base
 from .sample_data import add_sample_data
 
@@ -19,5 +20,6 @@ Base.metadata.create_all(bind=engine)
 add_sample_data()
 
 app = FastAPI()
-app.include_router(group.router)
-app.include_router(health.router)
+base.router.include_router(group.router)
+base.router.include_router(health.router)
+app.include_router(base.router)
