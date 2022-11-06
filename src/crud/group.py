@@ -6,32 +6,33 @@ from sqlalchemy.orm import Session
 
 # Local application imports
 from ..db.tables import Members, association_table, Group
-from ..schema.group import GroupCreateDto
+from ..schema.group import GroupPostDto, GroupPutDto, MemberPostDto
+from ..crud import member as member_crud
 
 
 def get_group(db: Session, group_id: int) -> Union[Group, None]:
     return db.query(Group).filter(Group.group_id == group_id).first()
 
 
+def count_groups(db: Session) -> int:
+    return db.query(Group).count()
+
+
 def get_groups(db: Session, offset: int = 0, limit: int = 10) -> List[Group]:
     return db.query(Group).offset(offset).limit(limit).all()
 
 
-def get_members(
-    group_id: int, db: Session, offset: int = 0, limit: int = 10
-) -> List[Members]:
+def get_members(group_id: int, db: Session) -> List[Members]:
     assoc = (
         db.query(association_table)
         .filter(association_table.c.group_id == group_id)
-        .offset(offset)
-        .limit(limit)
         .all()
     )
 
     return assoc
 
 
-def create_group(db: Session, group: GroupCreateDto) -> Group:
+def create_group(db: Session, group: GroupPostDto) -> Group:
     db_group = Group(**group.dict())
     db.add(db_group)
     db.commit()
@@ -49,9 +50,11 @@ def delete_group(db: Session, group_id: int) -> Union[Group, None]:
     return deleted_group
 
 
-def put_groupname(new_group: dict, db: Session, group_id: int) -> Union[Group, None]:
+def edit_group(
+    new_group: GroupPutDto, db: Session, group_id: int
+) -> Union[Group, None]:
     db.query(Group).filter(Group.group_id == group_id).update(
-        new_group, synchronize_session="fetch"
+        new_group.dict(exclude_none=True), synchronize_session="fetch"
     )
     db.commit()
     db_group = db.query(Group).filter(Group.group_id == group_id).first()
@@ -59,10 +62,13 @@ def put_groupname(new_group: dict, db: Session, group_id: int) -> Union[Group, N
     return db_group
 
 
-def add_member(new_member: dict, db: Session, group_id: int) -> Union[Group, None]:
+def add_member_to_group(
+    new_member: MemberPostDto, db: Session, group_id: int
+) -> Union[Group, None]:
+    member_crud.create_member(db=db, member=new_member)
     db.execute(
         association_table.insert(),
-        params=new_member,
+        params={"group_id": group_id, "member_id": new_member.member_id},
     )
     db.commit()
     db_group = db.query(Group).filter(Group.group_id == group_id).first()
