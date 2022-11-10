@@ -14,12 +14,26 @@ def get_group(db: Session, group_id: int) -> Union[Group, None]:
     return db.query(Group).filter(Group.group_id == group_id).first()
 
 
-def count_groups(db: Session) -> int:
-    return db.query(Group).count()
+def count_groups(db: Session, cap: str = None) -> int:
+    if cap:
+        return db.query(Group).filter(Group.group_capacity == cap).count()
+    else:
+        return db.query(Group).count()
 
 
-def get_groups(db: Session, offset: int = 0, limit: int = 10) -> List[Group]:
-    return db.query(Group).offset(offset).limit(limit).all()
+def get_groups(
+    db: Session, offset: int = 0, limit: int = 10, cap: str = None
+) -> List[Group]:
+    if cap:
+        return (
+            db.query(Group)
+            .filter(Group.group_capacity == cap)
+            .offset(offset)
+            .limit(limit)
+            .all()
+        )
+    else:
+        return db.query(Group).offset(offset).limit(limit).all()
 
 
 def get_members(group_id: int, db: Session) -> List[Members]:

@@ -4,6 +4,7 @@ Group endpoint routing
 # Third party imports
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from typing import Union
 
 # Local application imports
 from ..db.base import get_db
@@ -28,9 +29,9 @@ def read_groups(
     offset: int = DEFAULT_OFFSET,
     limit: int = DEFAULT_LIMIT,
     db: Session = Depends(get_db),
+    capacity: Union[str, None] = None,
 ):
-    groups = group_crud.get_groups(db, offset=offset, limit=limit)
-
+    groups = group_crud.get_groups(db, offset=offset, limit=limit, cap=capacity)
     total = group_crud.count_groups(db)
     links = []
 
