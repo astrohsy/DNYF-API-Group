@@ -4,7 +4,6 @@ Group endpoint routing
 # Third party imports
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-import boto3
 
 # Local application imports
 from ..db.base import get_db
@@ -17,16 +16,7 @@ from ..schema.group import (
     MemberPostDto,
 )
 from ..crud import group as group_crud
-from src.config import settings
 
-
-sns_resource = boto3.resource(
-    "sns",
-    region_name="us-east-1",
-    aws_access_key_id=settings.aws_access_key,
-    aws_secret_access_key=settings.aws_secret,
-)
-sns_topic = sns_resource.Topic(settings.sns_topic_arn)
 
 router = APIRouter(prefix="/groups", tags=["groups"])
 
@@ -89,9 +79,6 @@ def get_members(
 @router.post("/", response_model=GroupGetDto)
 def create_group(group: GroupPostDto, db: Session = Depends(get_db)):
     db_group = group_crud.create_group(db=db, group=group)
-    sns_topic.publish(
-        Message=f'Created group "{group.group_name}" with capacity {group.group_capacity}'
-    )
     return GroupGetDto(data=db_group)
 
 
