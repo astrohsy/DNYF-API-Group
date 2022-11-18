@@ -2,7 +2,7 @@
 Group endpoint routing
 """
 # Third party imports
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 # Local application imports
@@ -25,13 +25,14 @@ DEFAULT_LIMIT = 100
 
 @router.get("/", response_model=GroupGetDtoPaginated)
 def read_groups(
+    request: Request,
     offset: int = DEFAULT_OFFSET,
     limit: int = DEFAULT_LIMIT,
     db: Session = Depends(get_db),
 ):
-    groups = group_crud.get_groups(db, offset=offset, limit=limit)
-
-    total = group_crud.count_groups(db)
+    p = dict(request.query_params)
+    groups = group_crud.get_groups(db, offset=offset, limit=limit, params=p)
+    total = group_crud.count_groups(db, params=p)
     links = []
 
     if offset + limit < total:
