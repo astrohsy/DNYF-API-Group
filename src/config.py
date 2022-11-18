@@ -11,6 +11,9 @@ from pydantic import BaseSettings
 
 class Settings(BaseSettings):
     database_url: str
+    aws_access_key: str
+    aws_secret: str
+    sns_topic_arn: str
 
     class Config:
         env_file = ".env"

@@ -17,6 +17,7 @@ from ..schema.group import (
 )
 from ..crud import group as group_crud
 
+
 router = APIRouter(prefix="/groups", tags=["groups"])
 
 DEFAULT_OFFSET = 0
