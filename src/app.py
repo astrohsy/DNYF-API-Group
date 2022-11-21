@@ -60,6 +60,8 @@ async def sns_middleware(request: Request, call_next):
         sns_topic.publish(Message=message)
 
     return response
+
+
 origins = ["*"]
 
 app.add_middleware(
