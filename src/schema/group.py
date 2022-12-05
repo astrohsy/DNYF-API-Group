@@ -93,7 +93,7 @@ class GroupGetDtoPaginated(BaseModel):
 
 
 class MemberDto(BaseModel):
-    member_id: int
+    member_id: str
     links: Optional[List[Link]]
 
     @validator("links", always=True)
@@ -114,7 +114,7 @@ class MemberDto(BaseModel):
 class MemberPostDto(BaseModel):
     """Member properties to receive on member creation."""
 
-    member_id: int
+    member_id: str
 
 
 class MemberGetDto(BaseModel):
