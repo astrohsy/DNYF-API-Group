@@ -14,14 +14,20 @@ def get_group(db: Session, group_id: int) -> Union[Group, None]:
     return db.query(Group).filter(Group.group_id == group_id).first()
 
 
-def count_groups(db: Session, params: dict = None) -> int:
-    return db.query(Group).filter_by(**params).count()
+def count_groups(db: Session, group_name: str = "") -> int:
+    return db.query(Group).filter(Group.group_name.ilike(f"%{group_name}%")).count()
 
 
 def get_groups(
-    db: Session, offset: int = 0, limit: int = 10, params: dict = None
+    db: Session, offset: int = 0, limit: int = 10, group_name: str = ""
 ) -> List[Group]:
-    return db.query(Group).filter_by(**params).offset(offset).limit(limit).all()
+    return (
+        db.query(Group)
+        .filter(Group.group_name.ilike(f"%{group_name}%"))
+        .offset(offset)
+        .limit(limit)
+        .all()
+    )
 
 
 def get_members(group_id: int, db: Session) -> List[Members]:
