@@ -17,6 +17,7 @@ from .routes import base
 from .db.base import engine, Base
 from .sample_data import add_sample_data
 from src.config import settings
+from fastapi.middleware.cors import CORSMiddleware
 
 # Create all DB schema from scratch on every startup
 Base.metadata.drop_all(bind=engine)
@@ -29,7 +30,6 @@ app = FastAPI()
 base.router.include_router(group.router)
 base.router.include_router(health.router)
 app.include_router(base.router)
-
 
 # Add SNS middleware
 sns_resource = boto3.resource(
@@ -60,3 +60,14 @@ async def sns_middleware(request: Request, call_next):
         sns_topic.publish(Message=message)
 
     return response
+
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
