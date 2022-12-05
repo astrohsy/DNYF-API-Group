@@ -50,19 +50,19 @@ class GroupDto(GroupBaseDto):
     @validator("links", always=True)
     def validate_links(cls, value, values):
         links = [
-            {"href": f'/groups/{values["group_id"]}', "rel": "self", "type": "GET"},
+            {"href": f'/api/groups/{values["group_id"]}', "rel": "self", "type": "GET"},
             {
-                "href": f'/groups/{values["group_id"]}/members',
+                "href": f'/api/groups/{values["group_id"]}/members',
                 "rel": "get_members",
                 "type": "GET",
             },
             {
-                "href": f'/groups/{values["group_id"]}',
+                "href": f'/api/groups/{values["group_id"]}',
                 "rel": "delete_group",
                 "type": "DELETE",
             },
             {
-                "href": f'/groups/{values["group_id"]}',
+                "href": f'/api/groups/{values["group_id"]}',
                 "rel": "edit_group",
                 "type": "PUT",
             },
@@ -100,7 +100,7 @@ class MemberDto(BaseModel):
     def validate_links(cls, value, values):
         links = [
             {
-                "href": f'/users/{values["member_id"]}',
+                "href": f'/api/users/{values["member_id"]}',
                 "rel": "get_user_info",
                 "type": "GET",
             }
