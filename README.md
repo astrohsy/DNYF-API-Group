@@ -35,6 +35,11 @@ The whole DB schema is re-created on app startup and data re-populated from the 
 
 ## Running the service
 ### Start up local API and DB
+Create a network (one-time):
+```bash
+docker network create dnyfcomposite
+```
+
 ```bash
 docker-compose -f docker-compose.yml up --build
 ```
