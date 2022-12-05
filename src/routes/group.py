@@ -26,14 +26,16 @@ DEFAULT_LIMIT = 100
 
 @router.get("/", response_model=GroupGetDtoPaginated)
 def read_groups(
-    request: Request,
     offset: int = DEFAULT_OFFSET,
     limit: int = DEFAULT_LIMIT,
+    group_name: str = "",
     db: Session = Depends(get_db),
 ):
-    p = dict(request.query_params)
-    groups = group_crud.get_groups(db, offset=offset, limit=limit, params=p)
-    total = group_crud.count_groups(db, params=p)
+
+    groups = group_crud.get_groups(
+        db, offset=offset, limit=limit, group_name=group_name
+    )
+    total = group_crud.count_groups(db, group_name=group_name)
     links = []
 
     if offset + limit < total:
