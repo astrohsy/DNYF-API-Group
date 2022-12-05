@@ -41,7 +41,7 @@ def read_groups(
     if offset + limit < total:
         links.append(
             {
-                "href": f"/groups?offset={offset + limit}&limit={limit}",
+                "href": f"/api/groups?offset={offset + limit}&limit={limit}",
                 "rel": "get_next_group_page",
                 "type": "GET",
             }
@@ -51,7 +51,7 @@ def read_groups(
         prev = max(0, offset - limit)
         links.append(
             {
-                "href": f"/groups?offset={prev}&limit={limit}",
+                "href": f"/api/groups?offset={prev}&limit={limit}",
                 "rel": "get_prev_group_page",
                 "type": "GET",
             }
