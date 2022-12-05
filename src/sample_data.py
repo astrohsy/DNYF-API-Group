@@ -15,22 +15,22 @@ sample_groups = [
 ]
 
 sample_members = [
-    {"member_id": 1},
-    {"member_id": 2},
-    {"member_id": 3},
-    {"member_id": 4},
-    {"member_id": 5},
-    {"member_id": 6},
+    {"member_id": "sample1"},
+    {"member_id": "sample2"},
+    {"member_id": "sample3"},
 ]
 
 
 sample_group_memberships = [
-    (1, {"member_id": 1}),
-    (1, {"member_id": 2}),
-    (1, {"member_id": 3}),
-    (2, {"member_id": 4}),
-    (2, {"member_id": 5}),
-    (3, {"member_id": 6}),
+    (1, {"member_id": "sample1"}),
+    (1, {"member_id": "sample2"}),
+    (1, {"member_id": "sample3"}),
+    (2, {"member_id": "sample1"}),
+    (2, {"member_id": "sample2"}),
+    (3, {"member_id": "sample2"}),
+    (3, {"member_id": "sample3"}),
+    (4, {"member_id": "sample1"}),
+    (4, {"member_id": "sample3"}),
 ]
 
 

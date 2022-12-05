@@ -11,7 +11,7 @@ association_table = Table(
     Base.metadata,
     Column(
         "member_id",
-        Integer,
+        String(100),
         ForeignKey("members.member_id", ondelete="CASCADE"),
         nullable=False,
     ),
@@ -26,7 +26,7 @@ association_table = Table(
 
 class Members(Base):
     __tablename__ = "members"
-    member_id = Column(Integer, primary_key=True)
+    member_id = Column(String(100), primary_key=True)
     groups = relationship(
         "Group",
         secondary=association_table,
