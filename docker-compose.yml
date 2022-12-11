@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     ports:
-      - 8101:8101
+      - "8101:8101"
     volumes:
       - ./:/app
     networks:
@@ -21,7 +21,7 @@ services:
   db:
     image: mysql:8.0
     ports:
-      - 3306:3306
+      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=dbuser
       - MYSQL_USER=dbuser
@@ -31,7 +31,6 @@ services:
       - mysql:/var/lib/mysql
       - mysql_config:/etc/mysql
     networks:
-      dnyfcomposite:
       dnyfnet:
         aliases:
         - dnyf-group-db
