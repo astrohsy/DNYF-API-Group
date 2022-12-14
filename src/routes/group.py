@@ -111,7 +111,7 @@ def delete_group(group_id: int, db: Session = Depends(get_db)):
 
 
 @router.delete("/{group_id}/members/{member_id}", response_model=GroupGetDto)
-def delete_member(group_id: int, member_id: int, db: Session = Depends(get_db)):
+def delete_member(group_id: int, member_id: str, db: Session = Depends(get_db)):
     # Raise an error here
     db_group = group_crud.delete_member(db=db, group_id=group_id, member_id=member_id)
     return GroupGetDto(data=db_group)
