@@ -24,7 +24,7 @@ DEFAULT_OFFSET = 0
 DEFAULT_LIMIT = 100
 
 
-@router.get("/", response_model=GroupGetDtoPaginated)
+@router.get("", response_model=GroupGetDtoPaginated)
 def read_groups(
     offset: int = DEFAULT_OFFSET,
     limit: int = DEFAULT_LIMIT,
@@ -79,7 +79,7 @@ def get_members(
     return MemberGetDto(data=members)
 
 
-@router.post("/", response_model=GroupGetDto)
+@router.post("", response_model=GroupGetDto)
 def create_group(group: GroupPostDto, db: Session = Depends(get_db)):
     db_group = group_crud.create_group(db=db, group=group)
     return GroupGetDto(data=db_group)
