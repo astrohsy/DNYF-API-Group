@@ -45,7 +45,7 @@ sns_topic = sns_resource.Topic(settings.sns_topic_arn)
 async def sns_middleware(request: Request, call_next):
     response: StreamingResponse = await call_next(request)
 
-    if request.method == "POST" and request.url.path == "/api/groups/":
+    if request.method == "POST" and request.url.path == "/api/groups":
         # Get response body
         # https://stackoverflow.com/questions/71882419/fastapi-how-to-get-the-response-body-in-middleware
         response_body_raw = [chunk async for chunk in response.body_iterator]
